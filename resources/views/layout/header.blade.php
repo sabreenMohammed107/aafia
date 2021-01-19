@@ -22,7 +22,7 @@
 			      </div>
 			      <nav id="nav-menu-container">
 			        <ul class="nav-menu">
-			          <li><a href="#">Home</a></li>
+			          <li><a href="{{ url('/') }}">Home</a></li>
 			          <li><a href="#">About</a></li>
 			          <li><a href="#">Features</a></li>
 			          <li><a href="#">Departments</a></li>						          					          		          
@@ -30,10 +30,7 @@
 						<li class="menu-has-children">
 							<a href=""><img src="{{ asset('webasset/img/avatar3.png')}}" style="margin-top:-5px" />Welcome  @guest User @else {{ Auth::user()->name }}  @endguest</a>
 							<ul>
-								<!-- <li><a href="blog-home.html">Login</a></li>
-								<li><a href="blog-home.html">Register</a></li>
-                                <li><a href="blog-single.html">Log Out</a></li> -->
-                                
+								
                                 @guest
                             <li>
                                 <a  href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -65,8 +62,8 @@
                       @guest
                       <a href="{{ route('login') }}" class="btn  btn-danger check-top">Check Out</a></li>
                         @else
-                         
-                        <a href="{{ route('home') }}" class="btn  btn-danger check-top">Check Out</a></li>
+		
+                        <a href="{{ route('checkout') }}" class="btn  btn-danger check-top">Check Out</a></li>
                             </li>
                         @endguest
                     

@@ -13,18 +13,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('web.home.index');
-});
+
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/user', 'UserController@index')->name('user');
-Route::get('/admin', 'AdminController@index')->name('admin');
+
+// Route::get('/admin', 'AdminController@index')->name('admin');
+
 
 
 /*after laratrust*/
-
-
-
+Route::namespace('web')->group(function () {
+    Route::get('/', 'IndexController@index');
+    Route::get('dynamicLabAnalysis/fetch', 'IndexController@fetchAnalysis')->name('dynamicLabAnalysis.fetch');
+    Route::get('/addToCard', 'IndexController@addToCard')->name('addToCard');
+    Route::get('/removeItem/{id}', 'IndexController@removeItem');
+    Route::get('/checkout', 'IndexController@checkOutForm')->name('checkout');
+    Route::post('/sendNewsLetter', 'IndexController@sendNewsLetter');
+});
