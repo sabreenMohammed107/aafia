@@ -89,15 +89,7 @@
 									<!-- <option data-tokens="Option-1">Option-1</option> -->
 
 								</select>
-								@guest
-
-								<a href="{{route('login')}}" class="btn btn-success">Add Analysis to Cart</a>
-								@else
-
 								<button onclick="addtocard(this)" class="btn btn-success">Add Analysis to Cart </button>
-
-								</li>
-								@endguest
 								<!-- <a href="#" class="btn btn-success">Add Analysis to Cart</a> -->
 							</div>
 						</div>
@@ -140,7 +132,7 @@
 				<?php
 				$value = Session()->get('analysisSession');
 				?>
-				@if($analysisCart)
+				@if(Session::has('analysisSession') )
 				@include('web.home.ajaxLab')
 				@else
 				<div id="emptyData">

@@ -20,4 +20,11 @@ class Analysis extends Model
     'notes',
     'active',
    ];
+
+
+   public function analysis()
+   {
+       return $this->hasManyThrough('App\Models\Order', 'App\Models\Lab');
+   }
 }
+

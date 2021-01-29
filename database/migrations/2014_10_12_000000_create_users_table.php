@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('mobile')->nullable();
             $table->text('note')->nullable();
             $table->bigInteger('lab_id')->unsigned()->nullable();
+          
             $table->rememberToken();
             $table->timestamps();
         });

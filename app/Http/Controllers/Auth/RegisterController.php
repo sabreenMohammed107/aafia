@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Patient;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -60,8 +61,8 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', ],
-           
+            'email' => ['required', 'string', 'email',],
+
         ]);
     }
 
@@ -81,6 +82,10 @@ class RegisterController extends Controller
         ]);
 
         $user->attachRole('user');
+//create patient related with user 
+        $patient = Patient::create([
+            'user_id' => $user->id,
+        ]);
 
         return $user;
     }

@@ -31,4 +31,6 @@ Route::namespace('web')->group(function () {
     Route::get('/removeItem/{id}', 'IndexController@removeItem');
     Route::get('/checkout', 'IndexController@checkOutForm')->name('checkout');
     Route::post('/sendNewsLetter', 'IndexController@sendNewsLetter');
+    //remove from cart
+    Route::get('/removeCartItem/{id}', 'IndexController@removeCartItem');
 });
