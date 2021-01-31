@@ -18,6 +18,9 @@ class Order extends Model
     'scan_lab_id',
     'patient_id',
     'notes',
+    'visit_date',
+    'v_from',
+    'v_to',
   ];
   public function analysislab(){
     return $this->belongsTo('App\Models\Lab','analysis_lab_id');

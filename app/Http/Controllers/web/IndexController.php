@@ -10,6 +10,7 @@ use App\Models\Patient;
 use App\Models\Order;
 use App\Models\Order_item;
 use App\Models\Scan;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -90,7 +91,7 @@ class IndexController extends Controller
             $xx = [
                 'patient_id' => $patient->id,
                 'order_status_id' => 100,
-              
+
             ];
 
             $saveOrder = Order::where('order_status_id', 100)->where('patient_id', '=', $patient->id)->firstOrCreate($xx);
@@ -339,7 +340,7 @@ class IndexController extends Controller
             'total_amount' => $request->total,
         ];
         $order->update($data);
-    
+
         // try {
         //     $order->items()->delete();
         // } catch (QueryException $q) {
@@ -347,36 +348,76 @@ class IndexController extends Controller
         //     if (Auth::user()) {
         //         $patient = Patient::where('user_id', Auth::user()->id)->first();
         //         $orders = Order::where('patient_id', '=', $patient->id)->where('order_status_id', '!=', 100)->get();
-              
+
         //     }
 
-            
+
         //     return view('web.cart.cartOrder', ['orders' => $orders]);
         // }
-      
+
         \Session::flash('message', 'Cart Completely Saved!');
         \Session::flash('alert-class', 'alert-success');
         if (Auth::user()) {
             $patient = Patient::where('user_id', Auth::user()->id)->first();
             $orders = Order::where('patient_id', '=', $patient->id)->whereNotNull('order_status_id',)->where('order_status_id', '!=', 100)->get();
-              
         }
-        return view('web.cart.cartOrder', ['orders' => $orders]);    }
+        return view('web.cart.cartOrder', ['orders' => $orders]);
+    }
 
 
-        public function orderDetails($id){
-         $order=Order::where('id',$id)->first();
-         if ($order) {
+    public function orderDetails($id)
+    {
+        $order = Order::where('id', $id)->first();
+        if ($order) {
             $analysisCart = Order_item::with('analysis')->with('scan')->where('order_id', $order->id)->get();
         } else {
             $analysisCart = [];
         }
-  return view('web.cart.orderDetails', ['order' => $order ,'analysisCart'=>$analysisCart]); 
-        }
+        return view('web.cart.orderDetails', ['order' => $order, 'analysisCart' => $analysisCart]);
+    }
 
 
-        public function patientData(Request $request){
-            
-            
+    public function patientData(Request $request)
+    {
+
+        DB::beginTransaction();
+        try {
+            // Disable foreign key checks!
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            //saving Order Data
+            $order = Order::where('id', $request->order)->first();
+            if ($order) {
+                $order->v_from = Carbon::parse($request->v_from);
+                $order->v_to = Carbon::parse($request->v_to);
+                $order->visit_date = Carbon::parse($request->input('visit_date'));
+            }
+            $order->update();
+
+            //update User Data
+            $user = User::where('id', $request->userId)->first();
+            if ($user) {
+                $user->mobile = $request->input('mobile');
+                $user->update();
+                
+            }
+            $patient=Patient::where('user_id',$request->userId)->first();
+            if ($patient) {
+                $patient->address = $request->input('address');
+                $patient->update();
+                
+            }
+            DB::commit();
+            // Enable foreign key checks!
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            \Session::flash('message', 'Update Patient Data !');
+            \Session::flash('alert-class', 'alert-success');
+            return redirect()->back();
+        } catch (\Throwable $e) {
+            // throw $th;
+            DB::rollback();
+            \Session::flash('message', 'Some Thing Error !');
+            \Session::flash('alert-class', 'alert-success');
+            return redirect()->back();
         }
+    }
 }

@@ -80,35 +80,37 @@
 						<h2>Pationt Data</h2>
 						<form class="form-horizontal" action="{{route('patientData')}}" method="post">
 						@csrf
+						<input type="hidden" name="order" value="{{$order->id ?? 0}}">
+						<input type="hidden" name="userId" value="{{ Auth::user()->id }}">
 							<div class="form-group row">
 								<div class="col-sm-6">
 									<label for="inputFirstname">Name</label>
-									<input type="text" class="form-control" id="inputFirstname" placeholder="Name">
+									<input type="text" class="form-control" name="patient_name" readonly value="@guest User @else {{ Auth::user()->name }}  @endguest" id="inputFirstname" placeholder="Name">
 								</div>
 								<div class="col-sm-6">
 									<label for="inputLastname">Phone</label>
-									<input type="text" class="form-control" id="inputLastname" placeholder="Phone">
+									<input type="text" class="form-control" name="mobile" value="@guest User @else {{ Auth::user()->mobile }}  @endguest" required id="inputLastname" placeholder="Phone">
 								</div>
 							</div>
 							<div class="form-group row">
 								<div class="col-sm-6">
 									<label for="timefrom">Time From:</label>
-									<input type="time" class="form-control" id="timefrom" placeholder="timefrom">
+									<input type="time" class="form-control" value="{{date('H:i', strtotime($order->v_from))}}" name="v_from" required id="timefrom" placeholder="timefrom">
 								</div>
 								<div class="col-sm-6">
 									<label for="timeto">Time To:</label>
-									<input type="time" class="form-control" id="timeto" placeholder="timeto">
+									<input type="time" class="form-control" name="v_to" value="{{date('H:i', strtotime($order->v_to))}}" required id="timeto" placeholder="timeto">
 								</div>
 							</div>
 
 							<div class="form-group row">
 								<div class="col-sm-6">
 									<label for="dateVisit">Visit Date:</label>
-									<input type="date" class="form-control" id="dateVisit" placeholder="dateVisit">
+									<input type="date" class="form-control" name="visit_date" value="{{date('Y-m-d', strtotime($order->visit_date))}}" required id="dateVisit" placeholder="dateVisit">
 								</div>
 								<div class="col-sm-6">
 									<label for="address">Address:</label>
-									<input type="text" class="form-control" id="address" placeholder="address">
+									<input type="text" class="form-control" name="address" value="@guest User @else {{ Auth::user()->patient->address }}  @endguest" required id="address" placeholder="address">
 								</div>
 							</div>
 
