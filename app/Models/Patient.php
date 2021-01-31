@@ -29,4 +29,8 @@ class Patient extends Model
         'family_diseases',
         'notes',
      ];
+
+     public function user(){
+      return $this->belongsTo('App\User','user_id');
+  }
 }

@@ -26,4 +26,11 @@ class Order extends Model
 public function scanlab(){
   return $this->belongsTo('App\Models\Lab','scan_lab_id');
 }
+public function items(){
+  return $this->hasMany('App\Models\Order_item','order_id','id');
+}
+
+public function patient(){
+  return $this->belongsTo('App\Models\Patient','patient_id');
+}
 }

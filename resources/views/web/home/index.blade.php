@@ -120,7 +120,7 @@
 								@foreach($labs as $lab)
 								<div class="single-post-list d-flex flex-row align-items-center">
 									<div class="thumb">
-										<a href="#"><img class="img-fluid rec-logo" src="{{ asset('uploads/'.$lab->logo) }}" alt=""></a>
+										<a href="#"><img class="img-fluid rec-logo" width="120" height="70" src="{{ asset('uploads/'.$lab->logo) }}" alt=""></a>
 									</div>
 									<div class="details rec-price">
 										<p>{{$lab->en_name}}</p>
@@ -137,10 +137,15 @@
 				</div>
 			</div>
 			<div id="ajaxLab" class="col-lg-9">
-				<?php
-				$value = Session()->get('analysisSession');
+			<?php
+				$countanalysis = 0;
+				foreach ($analysisCart as $objAnalysis) {
+					if ($objAnalysis->analysis) {
+						$countanalysis++;
+					}
+				}
 				?>
-				@if($analysisCart)
+				@if($analysisCart && $countanalysis>0)
 				@include('web.home.ajaxLab')
 				@else
 				<div id="emptyData">
@@ -252,14 +257,16 @@
 		<div class="row analysis-area">
 			<div class="col-lg-3">
 				<div class="row">
-					<form>
+					<form id="myscan" action="" method="GET">
 						<div class="form-group">
 							<label for="">Select The Lap Name</label>
 							<div>
-								<select class="form-control form-control-xs selectpicker" name="" data-size="7" data-live-search="true" data-title="Lap Name" id="state_list" data-width="100%">
-									<option>Option 1</option>
-									<option>Option 2</option>
-									<option>Option 3</option>
+
+								<select class="form-control form-control-xs selectpicker dynamicScan" name="selectedScan" data-size="7" data-live-search="true" data-title="Lap Name" id="selectedScan" data-dependent="scan" data-width="100%">
+									@foreach ($labs as $lab)
+									<option value='{{$lab->id}}'>{{$lab->en_name}}</option>
+
+									@endforeach
 								</select>
 							</div>
 						</div>
@@ -267,19 +274,24 @@
 							<label for="">Search For Scan</label>
 							<div>
 								<input class="form-control mb-10" placeholder="--Search For Scan--" />
-								<select class="form-control show-menu-arrow mb-10" data-live-search="true" multiple="" title="-- Select your Analysis --">
-									<option data-tokens="Option-1">Option-1</option>
-									<option data-tokens="Option-2">Option-2</option>
-									<option data-tokens="Option-3">Option-3</option>
-									<option data-tokens="Option-4">Option-4</option>
-									<option data-tokens="Option-5">Option-5</option>
-									<option data-tokens="Option-6">Option-6</option>
-									<option data-tokens="Option-7">Option-7</option>
+
+								<select class="form-control  show-menu-arrow mb-10" name="scans[]" id="scans" data-live-search="true" multiple="" title="-- Select your Analysis --">
+									<!-- <option data-tokens="Option-1">Option-1</option> -->
+
 								</select>
-								<a href="#" class="btn btn-info">Add Scan to Cart</a>
+								@guest
+
+								<a href="{{route('login')}}" class="btn btn-info">Add Scan to Cart</a>
+								@else
+
+								<button onclick="addscancard(this)" class="btn btn-info">Add Scan to Cart </button>
+
+								</li>
+								@endguest
+
 							</div>
 						</div>
-						<div class="form-group analysis-cart">
+						<!-- <div class="form-group analysis-cart">
 							<label for="">Search For Other Scan</label>
 							<div>
 								<select class="form-control form-control-xs selectpicker" name="" data-size="7" data-live-search="true" data-title="Lap Name" id="state_list" data-width="100%">
@@ -287,7 +299,7 @@
 									<option>Doctors Syndicate</option>
 								</select>
 							</div>
-						</div>
+						</div> -->
 					</form>
 				</div>
 				<h4 class="rec-price-title">Recommended Labs</h4>
@@ -295,46 +307,42 @@
 					<div class="col-lg-12">
 						<div class="single-sidebar-widget popular-post-widget">
 							<div class="popular-post-list">
+								@foreach($labs as $lab)
 								<div class="single-post-list d-flex flex-row align-items-center">
 									<div class="thumb">
-										<a href="#"><img class="img-fluid rec-logo" src="img/rec-lap1.png" alt=""></a>
+										<a href="#"><img width="120" height="70" class="img-fluid rec-logo" src="{{ asset('uploads/'.$lab->logo) }}" alt=""></a>
 									</div>
 									<div class="details rec-price">
-										<p>El Borg Lap</p>
-										<p>Lorem ipsum dolor</p>
-										<p>Lorem ipsum dolor</p>
+										<p>{{$lab->en_name}}</p>
+										<p>{{$lab->en_slogan}}</p>
+
 									</div>
 								</div>
-								<div class="single-post-list d-flex flex-row align-items-center">
-									<div class="thumb">
-										<a href="#"><img class="img-fluid rec-logo" src="img/rec-lap2.png" alt=""></a>
-									</div>
-									<div class="details rec-price">
-										<p>El Mokhtabr Lap</p>
-										<p>Lorem ipsum dolor</p>
-										<p>Lorem ipsum dolor</p>
-									</div>
-								</div>
-								<div class="single-post-list d-flex flex-row align-items-center">
-									<div class="thumb">
-										<a href="#"><img class="img-fluid rec-logo" src="img/rec-lap1.png" alt=""></a>
-									</div>
-									<div class="details rec-price">
-										<p>El Borg Lap</p>
-										<p>Lorem ipsum dolor</p>
-										<p>Lorem ipsum dolor</p>
-									</div>
-								</div>
+								@endforeach
+
+
 							</div>
 						</div>
 					</div>
 
 				</div>
 			</div>
-			<div class="col-lg-9">
+
+			<div id="ajaxScan" class="col-lg-9">
+				<?php
+				$countscan = 0;
+				foreach ($analysisCart as $objScan) {
+					if ($objScan->scan) {
+						$countscan++;
+					}
+				}
+				?>
+				@if($analysisCart && $countscan > 0)
+				@include('web.home.ajaxScan')
+				@else
 				<div class="row lap-area">
 					<div class="col-lg-3 col-sm-12">
-						<img src="img/logo.png" class="our-logo" /><span>Salamtk</span>
+						<img src="{{ asset('webasset/img/logo.png')}}" class="our-logo" /><span>Salamtk</span>
 					</div>
 					<div class="col-lg-7  col-sm-12">
 						<h3 class="our-slogn">We Always Care For Your Health</h3>
@@ -368,9 +376,10 @@
 						</li>
 					</ul>
 				</div>
+				@endif
+
 			</div>
 		</div>
-	</div>
 </section>
 <!-- Scan Area -->
 
@@ -469,6 +478,28 @@
 			}
 		});
 	}
+
+	//adding analysis to session
+	function addscancard(theForm) {
+
+		theForm = $('theForm').closest("form");
+
+		event.preventDefault();
+		$.ajax({ // create an AJAX call...
+			data: $('#myscan').serialize(), // get the form data
+			method: "get", // GET or POST
+			url: "{{url('/addScanCard')}}", // the file to call
+			success: function(response) { // on success..
+				$('#ajaxScan').html(response); // update the DIV
+				// $('#myforma').reset();
+				document.getElementById("myscan").reset();
+				$("#selectedScan").val('default');
+				$("#selectedScan").selectpicker("refresh");
+				$('#scans').html('');
+
+			}
+		});
+	}
 	//remove item from session
 	function removeItem(c) {
 
@@ -485,6 +516,27 @@
 				$("#selectedLab").val('default');
 				$("#selectedLab").selectpicker("refresh");
 				$('#analysis').html('');
+			}
+		});
+
+	}
+
+	//remove item from session
+	function removeScanItem(c) {
+
+		var id = c;
+
+		$.ajax({ // create an AJAX call...
+			// get the form data
+			url: '{{ url("/removeScanItem") }}/' + id,
+
+			success: function(response) { // on success..
+				$('#ajaxScan').html(response); // update the DIV
+				// $('#myforma').reset();
+				document.getElementById("myscan").reset();
+				$("#selectedScan").val('default');
+				$("#selectedScan").selectpicker("refresh");
+				$('#scans').html('');
 			}
 		});
 
@@ -509,6 +561,30 @@
 					success: function(result) {
 
 						$('#analysis').html(result);
+					}
+
+				})
+			}
+		});
+
+		$('.dynamicScan').change(function() {
+
+			if ($(this).val() != '') {
+				var select = $(this).attr("id");
+				var value = $(this).val();
+
+
+				$.ajax({
+					url: "{{route('dynamicLabScan.fetch')}}",
+					method: "get",
+					data: {
+						select: select,
+						value: value,
+
+					},
+					success: function(result) {
+
+						$('#scans').html(result);
 					}
 
 				})

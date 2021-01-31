@@ -33,4 +33,13 @@ Route::namespace('web')->group(function () {
     Route::post('/sendNewsLetter', 'IndexController@sendNewsLetter');
     //remove from cart
     Route::get('/removeCartItem/{id}', 'IndexController@removeCartItem');
+
+
+    /**scan  addScanCard */
+    Route::get('dynamicLabScan/fetch', 'IndexController@fetchScan')->name('dynamicLabScan.fetch');
+    Route::get('/addScanCard', 'IndexController@addScanCard')->name('addScanCard');
+    Route::get('/removeScanItem/{id}', 'IndexController@removeScanItem');
+    Route::get('/savingCart', 'IndexController@SavingCart')->name('SavingCart');
+    Route::get('/orderDetails/{id}', 'IndexController@orderDetails')->name('orderDetails');
+    Route::post('/patientData', 'IndexController@patientData')->name('patientData');
 });
