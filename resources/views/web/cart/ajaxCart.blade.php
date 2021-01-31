@@ -78,7 +78,7 @@
 				<div class="col-lg-8">
 					<div class="container" style="box-shadow:5px 5px 5px rgba(68,68,68,0.6);">
 						<h2>Pationt Data</h2>
-						<form class="form-horizontal" action="{{rout('patientData')}}" method="post">
+						<form class="form-horizontal" action="{{route('patientData')}}" method="post">
 						@csrf
 							<div class="form-group row">
 								<div class="col-sm-6">
@@ -114,7 +114,7 @@
 
 
 							<div class="form-group row">
-								<button type="submit" class="btn btn-primary px-4 mb-3">Save</button>
+								<button type="submit" class="btn btn-success px-4 mb-3">Save</button>
 							</div>
 
 						</form>
