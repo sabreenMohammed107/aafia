@@ -42,4 +42,5 @@ Route::namespace('web')->group(function () {
     Route::get('/savingCart', 'IndexController@SavingCart')->name('SavingCart');
     Route::get('/orderDetails/{id}', 'IndexController@orderDetails')->name('orderDetails');
     Route::post('/patientData', 'IndexController@patientData')->name('patientData');
+    Route::get('/comparePrice/{id}', 'IndexController@comparePrice');
 });

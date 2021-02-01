@@ -48,7 +48,7 @@
                 <div class="card-header bg-success text-white">{{$data->scan->discount_pct}}</div>
                 <div class="card-body">
                     <h5 class="card-title">{{$data->scan->en_name}}</h5>
-                    <p class="card-text">{{$data->scan->en_desc}}.</p>
+                    <p class="card-text">	{{ Str::limit($data->scan->en_desc, 200, ' ...') }}</p>
                     <h5>Price: <span style="text-decoration:line-through">{{$data->scan->original_cost}}LE</span>{{$data->scan->original_cost-(($data->scan->original_cost * $data->scan->discount_pct)/100) }} LE</h5>
                     <a href="#" class="btn  btn-success btn-sm">Details</a>
                     {{--<button class="btn" title="Delete" onclick="removeScanItem('{{$data->id}}')" ><i class="fa fa-trash-o" aria-hidden="true"></i></button>--}}
@@ -60,17 +60,6 @@
         @endforeach
     </div>
 
-    <div class="row justify-content-center">
-        @guest
-
-        <a href="{{route('login')}}" class="btn  btn-danger text-white">Check Out</a>
-        @else
-
-
-        <a href="{{route('checkout')}}" class="btn  btn-danger text-white">Check Out</a>
-        </li>
-        @endguest
-
-    </div>
+  
 </div>
 <!-- end -->

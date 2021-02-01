@@ -37,7 +37,8 @@ class IndexController extends Controller
                 $analysisCart = [];
             }
         }
-        return view('web.home.index', compact('labs', 'analysisCart'));
+        $comparess=[];
+        return view('web.home.index', compact('labs', 'analysisCart','comparess'));
     }
 
     /**
@@ -256,12 +257,16 @@ class IndexController extends Controller
 
         $row = Order_item::where('id', $id)->first();
         // Delete File ..
+
         try {
             // $row->item()->delete();
             $row->delete();
+
             if (Auth::user()) {
                 $patient = Patient::where('user_id', Auth::user()->id)->first();
+               
                 $order = Order::where('order_status_id', 100)->where('patient_id', '=', $patient->id)->first();
+               
                 if ($order) {
                     $analysisCart = Order_item::with('analysis')->with('scan')->where('order_id', $order->id)->get();
                 } else {
@@ -275,7 +280,7 @@ class IndexController extends Controller
 
         \Session::flash('message', 'Deleted Complete !');
         \Session::flash('alert-class', 'alert-danger');
-        return view('web.cart.ajaxCart', ['analysisCart' => $analysisCart])->render();
+        return view('web.cart.ajaxCart', ['analysisCart' => $analysisCart,'order'=>$order])->render();
     }
 
     /**
@@ -410,14 +415,27 @@ class IndexController extends Controller
             // Enable foreign key checks!
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
             \Session::flash('message', 'Update Patient Data !');
-            \Session::flash('alert-class', 'alert-success');
+            \Session::flash('alert-class', 'alert-dark');
             return redirect()->back();
         } catch (\Throwable $e) {
             // throw $th;
             DB::rollback();
             \Session::flash('message', 'Some Thing Error !');
-            \Session::flash('alert-class', 'alert-success');
+            \Session::flash('alert-class', 'alert-dark');
             return redirect()->back();
         }
+    }
+
+
+
+    public function comparePrice($id)
+    {
+
+        $analysis = Analysis::where('id', $id)->first();
+        // Delete File ..
+
+      $comparess=Analysis::where('en_name', 'like', '%' .$analysis->en_name . '%')->where('lab_id','!=',$analysis->lab_id)->get();
+    \Log::info(['comparess',$comparess]);
+        return view('web.home.comparePrices', ['comparess' => $comparess])->render();
     }
 }

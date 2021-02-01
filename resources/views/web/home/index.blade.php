@@ -81,11 +81,11 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group analysis-cart">
+						<div class="form-group analysis-cart" style="width: 100%;">
 							<label for="">Search For Analysis</label>
 							<div>
 								<input class="form-control mb-10" placeholder="--Search For Analysis--" />
-								<select class="form-control  show-menu-arrow mb-10" name="analysis[]" id="analysis" data-live-search="true" multiple="" title="-- Select your Analysis --">
+								<select class="form-control  show-menu-arrow mb-10"  style="max-width:400px; overflow-x: scroll;" name="analysis[]" id="analysis" data-live-search="true" multiple="" title="-- Select your Analysis --">
 									<!-- <option data-tokens="Option-1">Option-1</option> -->
 
 								</select>
@@ -112,28 +112,9 @@
 						</div> -->
 					</form>
 				</div>
-				<h4 class="rec-price-title">Recommended Labs</h4>
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="single-sidebar-widget popular-post-widget">
-							<div class="popular-post-list">
-								@foreach($labs as $lab)
-								<div class="single-post-list d-flex flex-row align-items-center">
-									<div class="thumb">
-										<a href="#"><img class="img-fluid rec-logo" width="120" height="70" src="{{ asset('uploads/'.$lab->logo) }}" alt=""></a>
-									</div>
-									<div class="details rec-price">
-										<p>{{$lab->en_name}}</p>
-										<p>{{$lab->en_slogan}}</p>
-
-									</div>
-								</div>
-								@endforeach
-
-							</div>
-						</div>
-					</div>
-
+				<div id="comparePrices">
+				@include('web.home.comparePrices')
+			
 				</div>
 			</div>
 			<div id="ajaxLab" class="col-lg-9">
@@ -470,10 +451,10 @@
 
 				$('#ajaxLab').html(response); // update the DIV
 				// $('#myforma').reset();
-				document.getElementById("myforma").reset();
-				$("#selectedLab").val('default');
-				$("#selectedLab").selectpicker("refresh");
-				$('#analysis').html('');
+				// document.getElementById("myforma").reset();
+				// $("#selectedLab").val('default');
+				// $("#selectedLab").selectpicker("refresh");
+				// $('#analysis').html('');
 
 			}
 		});
@@ -492,10 +473,10 @@
 			success: function(response) { // on success..
 				$('#ajaxScan').html(response); // update the DIV
 				// $('#myforma').reset();
-				document.getElementById("myscan").reset();
-				$("#selectedScan").val('default');
-				$("#selectedScan").selectpicker("refresh");
-				$('#scans').html('');
+				// document.getElementById("myscan").reset();
+				// $("#selectedScan").val('default');
+				// $("#selectedScan").selectpicker("refresh");
+				// $('#scans').html('');
 
 			}
 		});
@@ -541,6 +522,22 @@
 		});
 
 	}
+
+		//comparePrice
+		function comparePrice(c) {
+
+var id=c;
+$.ajax({ // create an AJAX call...
+	// get the form data
+	url: '{{ url("/comparePrice") }}/' + id,
+
+	success: function(response) { // on success..
+		$('#comparePrices').html(response); // update the DIV
+	
+	}
+});
+
+}
 	$(document).ready(function() {
 
 		$('.dynamic').change(function() {

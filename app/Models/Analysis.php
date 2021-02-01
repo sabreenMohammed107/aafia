@@ -21,7 +21,9 @@ class Analysis extends Model
     'active',
    ];
 
-
+   public function lab(){
+    return $this->belongsTo('App\Models\Lab','lab_id');
+}
    public function analysis()
    {
        return $this->hasManyThrough('App\Models\Order', 'App\Models\Lab');

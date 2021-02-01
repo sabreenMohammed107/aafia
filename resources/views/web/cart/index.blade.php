@@ -179,12 +179,13 @@
 	function removeCartItem(c) {
 
 		var id = c;
-
+	
 		$.ajax({ // create an AJAX call...
 			// get the form data
 			url: '{{ url("/removeCartItem") }}/' + id,
 
 			success: function(response) { // on success..
+				
 				$('#ajaxCart').html(response); // update the DIV
 
 			}
