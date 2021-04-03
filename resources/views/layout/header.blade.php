@@ -18,15 +18,15 @@
 		    <div class="container main-menu">
 		    	<div class="row align-items-center justify-content-between d-flex">
 			      <div id="logo">
-			        <a href="index.html"class="logo"><img src="{{ asset('webasset/img/logo.png')}}" alt="" title="" />Salamtk</a>
+			        <a href="index.html"class="logo"><img src="{{ asset('webasset/img/logo.png')}}" alt="" title="" />Aafia</a>
 			      </div>
 			      <nav id="nav-menu-container">
 			        <ul class="nav-menu">
 			          <li><a href="{{ url('/') }}">Home</a></li>
-			          <li><a href="#">About</a></li>
-			          <li><a href="#">Features</a></li>
-			          <li><a href="#">Departments</a></li>						          					          		          
-			          <li><a href="#">Contact</a></li>
+			          <li><a href="{{ url('/about') }}">About</a></li>
+			          <li><a href="#">Services</a></li>
+			          <li><a href="#">News</a></li>						          					          		          
+			          <li><a href="{{ url('/contact') }}">Contact Us</a></li>
 						<li class="menu-has-children">
 							<a href=""><img src="{{ asset('webasset/img/avatar3.png')}}" style="margin-top:-5px" />Welcome  @guest User @else {{ Auth::user()->name }}  @endguest</a>
 							<ul>

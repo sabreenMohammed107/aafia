@@ -1,12 +1,12 @@
 <!-- ajax Data on change Lab -->
 <div id="ajaxData">
 
-@if(Session::has('message') )
+{{--@if(Session::has('message') )
 	<div id="alertDiv" class="alert {{ Session::get('alert-class', 'alert-info') }}">
 		<button type="button" id="alertClose" class="close" data-dismiss="alert">×</button>
 		<strong style="color:#fff;font-weight:bold">{{ Session::get('message') }} </strong>
 	</div>
-	@endif
+	@endif--}}
 	<div class="row lap-area">
 	@foreach($analysisCart as $data)
         @if($data->analysis)
@@ -44,13 +44,13 @@
 	@if($data->analysis)
 		<div class="col-lg-4 col-md-6 mb-10">
 			<div class="card text-center">
-				<div class="card-header bg-success text-white">{{$data->analysis->discount_pct}}</div>
+				<div class="card-header bg-success text-white">{{$data->analysis->discount_pct}} % Discount</div>
 				<div class="card-body">
 					<h5 class="card-title">{{$data->analysis->en_name}}</h5>
 				
 					<p class="card-text">	{{ Str::limit($data->analysis->en_desc, 200, ' ...') }}</p>
 					<h5>Price: <span style="text-decoration:line-through">{{$data->analysis->original_cost}}LE</span>{{$data->analysis->original_cost-(($data->analysis->original_cost * $data->analysis->discount_pct)/100) }}LE</h5>
-					<button id="{{$data->analysis->id}}" onclick="comparePrice({{$data->analysis->id}})" class="btn  btn-success btn-sm">Details</button>
+					<button id="{{$data->analysis->id}}" onclick="comparePrice({{$data->analysis->id}})" class="btn  btn-success btn-sm">Compare</button>
 					{{--<button class="btn" title="Delete" onclick="removeItem('{{$data->id}}')" ><i class="fa fa-trash-o" aria-hidden="true"></i></button>--}}
 					<button id="{{$data->id}}" onclick="removeItem({{$data->id}})" title="Delete" class="btn  btn-danger btn-sm">Remove </button>
 				</div>

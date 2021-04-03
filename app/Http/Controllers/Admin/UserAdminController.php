@@ -3,10 +3,32 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Lab;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserAdminController extends Controller
 {
+
+    protected $user_info;
+
+    protected $routeName;
+
+    public function __construct()
+    {
+
+        // 
+        $this->middleware('role:main_admin|super_admin');
+
+
+        // $this->labUser =Auth::user();
+        $this->middleware(function ($request, $next) {
+            $this->user_info = Auth::user(); // returns user
+            return $next($request);
+        });
+
+        $this->routeName = 'admin.';
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,6 +37,10 @@ class UserAdminController extends Controller
     public function index()
     {
         //
+        // dd ($this->user_info);
+        $lab = Lab::where('id', '=', $this->user_info->lab_id)->first();
+
+        return view('admin.labs.index', compact('lab'));
     }
 
     /**
@@ -57,7 +83,8 @@ class UserAdminController extends Controller
      */
     public function edit($id)
     {
-        //
+        $lab = Lab::where('id', '=', $id)->first();
+        return view('admin.labs.edit', compact('lab'));
     }
 
     /**
@@ -70,6 +97,22 @@ class UserAdminController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $lab = Lab::where('id', '=', $id)->first();
+
+        $input =$request->except(['_method', '_token','logo']);
+      
+     
+        if($request->hasFile('logo'))
+             {
+                $logo=$request->file('logo');
+       
+                $input['logo'] = $this->UplaodImage($logo);
+
+             }
+
+             $lab->update($input);
+             return redirect()->route($this->routeName.'index')->with('flash_success', 'Data Has Been Deleted Successfully !');
+     
     }
 
     /**
@@ -81,5 +124,27 @@ class UserAdminController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function UplaodImage($file_request)
+	{
+		//  This is Image Info..
+		$file = $file_request;
+		$name = $file->getClientOriginalName();
+		$ext  = $file->getClientOriginalExtension();
+		$size = $file->getSize();
+		$path = $file->getRealPath();
+		$mime = $file->getMimeType();
+
+
+		// Rename The Image ..
+		$imageName =$name;
+		$uploadPath = public_path('uploads');
+		
+		// Move The image..
+		$file->move($uploadPath, $imageName);
+       
+		return $imageName;
     }
 }

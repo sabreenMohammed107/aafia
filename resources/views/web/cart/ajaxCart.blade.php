@@ -77,7 +77,7 @@
 			<div class="row">
 				<div class="col-lg-8">
 					<div class="container" style="box-shadow:5px 5px 5px rgba(68,68,68,0.6);">
-						<h2>Pationt Data</h2>
+						<h2>Patient Data</h2>
 						<form class="form-horizontal" action="{{route('patientData')}}" method="post">
 						@csrf
 						<input type="hidden" name="order" value="{{$order->id ?? 0}}">
@@ -106,12 +106,27 @@
 							<div class="form-group row">
 								<div class="col-sm-6">
 									<label for="dateVisit">Visit Date:</label>
-									<input type="date" class="form-control" name="visit_date" value="{{date('Y-m-d', strtotime($order->visit_date))}}" required id="dateVisit" placeholder="dateVisit">
+									<input type="date" class="form-control" name="visit_date" @if($order->visit_date) value="{{date('Y-m-d', strtotime($order->visit_date))}}" @else value="{{date('Y-m-d', strtotime(Carbon\Carbon::now()))}}" @endif required id="dateVisit" placeholder="dateVisit">
 								</div>
 								<div class="col-sm-6">
 									<label for="address">Address:</label>
 									<input type="text" class="form-control" name="address" value="@guest User @else {{ Auth::user()->patient->address }}  @endguest" required id="address" placeholder="address">
 								</div>
+							</div>
+
+
+							<div class="form-group row">
+								<div class="col-sm-6">
+									<label for="dateVisit">Syndicate:</label>
+									<select class="form-control form-control-xs selectpicker " name="syndicate_id" data-size="7" data-live-search="true"  id="syndicate_id"  data-width="100%">
+									<option value="">@if(Auth::user()->patient->syndicate) {{Auth::user()->patient->syndicate->text}} @else Select @endif</option>
+									@foreach ($syndicate as $obj)
+									<option value='{{$obj->id}}'>{{$obj->text}}</option>
+
+									@endforeach
+								</select>
+								</div>
+								
 							</div>
 
 
@@ -193,7 +208,7 @@
 								<div class="modal-body">
 									<span class="educate-icon educate-danger modal-check-pro information-icon-pro"> </span>
 
-									<h4>Do You Want To save And Clear Your Cart ? </h4>
+									<h4>Order Confirmation - Are You Sure ? </h4>
 								</div>
 								<div class="modal-footer info-md">
 									<button class="btn btn-success waves-effect waves-light" name="action" value="save" onclick="document.getElementById('form-id').submit();">Save</button>

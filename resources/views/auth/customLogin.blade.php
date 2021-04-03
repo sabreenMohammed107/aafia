@@ -47,7 +47,7 @@
                     <div class="col-md-5">
                         <div class="card-body">
                             <div class="brand-wrapper">
-                                <h3><img src="{{ asset('webasset/img/logo.png')}}" alt="logo" class="logo">Salamtak</h3>
+                                <h3><img src="{{ asset('webasset/img/logo.png')}}" alt="logo" class="logo">Aafia</h3>
                             </div>
                             <p class="login-card-description">Sign into your account</p>
                             <form method="POST" action="{{ route('login') }}">

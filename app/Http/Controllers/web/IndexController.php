@@ -10,6 +10,7 @@ use App\Models\Patient;
 use App\Models\Order;
 use App\Models\Order_item;
 use App\Models\Scan;
+use App\Models\Syndicate;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
@@ -28,9 +29,14 @@ class IndexController extends Controller
 
         $labs = Lab::where('active', '=', 1)->get();
         $analysisCart = [];
+        $order=null;
         if (Auth::user()) {
+           
             $patient = Patient::where('user_id', Auth::user()->id)->first();
-            $order = Order::where('order_status_id', 100)->where('patient_id', '=', $patient->id)->first();
+            if($patient){
+                $order = Order::where('order_status_id', 100)->where('patient_id', '=', $patient->id)->first();
+    
+            }
             if ($order) {
                 $analysisCart = Order_item::with('analysis')->with('scan')->where('order_id', $order->id)->get();
             } else {
@@ -38,6 +44,16 @@ class IndexController extends Controller
             }
         }
         $comparess=[];
+        $user=Auth::user();
+      
+        if($user){
+            if($user->hasRole('super_admin') || $user->hasRole('main_admin')){
+                //    dd('sssss');
+               
+                Auth::logout();
+                    }
+        }
+      
         return view('web.home.index', compact('labs', 'analysisCart','comparess'));
     }
 
@@ -290,6 +306,7 @@ class IndexController extends Controller
 
     public function checkOutForm(Request $request)
     {
+        $syndicate=Syndicate::all();
 
         if (Auth::user()) {
             $patient = Patient::where('user_id', Auth::user()->id)->first();
@@ -300,7 +317,7 @@ class IndexController extends Controller
                 $analysisCart = null;
             }
         }
-        return view('web.cart.index', ['analysisCart' => $analysisCart, 'order' => $order]);
+        return view('web.cart.index', ['analysisCart' => $analysisCart, 'order' => $order,'syndicate'=>$syndicate]);
     }
 
     /**
@@ -366,7 +383,8 @@ class IndexController extends Controller
             $patient = Patient::where('user_id', Auth::user()->id)->first();
             $orders = Order::where('patient_id', '=', $patient->id)->whereNotNull('order_status_id',)->where('order_status_id', '!=', 100)->get();
         }
-        return view('web.cart.cartOrder', ['orders' => $orders]);
+        $syndicate=Syndicate::all();
+        return view('web.cart.cartOrder', ['orders' => $orders,'syndicate'=>$syndicate]);
     }
 
 
@@ -408,6 +426,7 @@ class IndexController extends Controller
             $patient=Patient::where('user_id',$request->userId)->first();
             if ($patient) {
                 $patient->address = $request->input('address');
+                $patient->syndicate_id=$request->input('syndicate_id');
                 $patient->update();
                 
             }

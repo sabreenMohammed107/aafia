@@ -45,7 +45,7 @@
                                 @foreach($orders as $order)
 									<tr>
 										<td class="text-center"><h5>{{date('d-m-Y', strtotime($order->order_date))}}</h5></td>
-										<td class="text-center"><h5>PO# {{$order->order_no}}</h5></td>
+										<td class="text-center"><h5>{{$order->order_no}}</h5></td>
 										<td class="text-center"><h5>{{$order->total_amount}} LE</h5></td>
 										<td class="text-center">
                                         @if($order->order_status_id==103)

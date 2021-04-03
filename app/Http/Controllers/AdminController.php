@@ -10,8 +10,9 @@ class AdminController extends Controller
     {
         $this->middleware('role:main_admin|super_admin');
     }
+    
     public function index()
     {
-        return view('home');
+        return view('admin.adminLayout.main');
     }
 }

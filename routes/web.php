@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+// Route::get('/home', 'HomeController@index')->name('home');
 
 // Route::get('/admin', 'AdminController@index')->name('admin');
 
@@ -43,4 +43,9 @@ Route::namespace('web')->group(function () {
     Route::get('/orderDetails/{id}', 'IndexController@orderDetails')->name('orderDetails');
     Route::post('/patientData', 'IndexController@patientData')->name('patientData');
     Route::get('/comparePrice/{id}', 'IndexController@comparePrice');
+
+    /* static Data */
+    Route::get('/about', 'StaticDataController@index');
+    Route::get('/contact', 'StaticDataController@contact');
+
 });

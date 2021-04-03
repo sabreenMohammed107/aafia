@@ -37,7 +37,7 @@
                     <div class="card-body">
                         <dl class="row">
                             <dd class="col-sm-4">Order Number</dd>
-                            <dt class="col-sm-8">PO# {{$order->order_no}}</dt>
+                            <dt class="col-sm-8"> {{$order->order_no}}</dt>
                             <dd class="col-sm-4">Order Date</dd>
                             <dt class="col-sm-8">{{date('d-m-Y', strtotime($order->order_date))}}</dt>
                         </dl>

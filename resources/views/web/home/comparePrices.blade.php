@@ -1,11 +1,12 @@
-<h4 class="rec-price-title">
 @if($comparess && isset($comparess[0]))
+
+<div class="card text-center">
+		<div class="card-header bg-success text-white">
 {{$comparess[0]->en_name}}
-@else
-Compare Prices
-@endif
-</h4>
-				<div class="row">
+
+</div>
+
+				<div class="card-body">
 					<div class="col-lg-12">
 						<div class="single-sidebar-widget popular-post-widget @if($comparess && isset($comparess[0])) analysis-cart @endif">
 							<div class="popular-post-list">
@@ -32,8 +33,8 @@ Compare Prices
 					</div>
 
 				</div>
+				</div>
+
+				@endif
 
 
-
-
-				

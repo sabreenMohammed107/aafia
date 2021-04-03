@@ -1,12 +1,12 @@
 <!-- ajax Data on change Lab -->
 <div id="ajaxData">
-
+{{--
     @if(Session::has('message') )
     <div id="alertDiv" class="alert {{ Session::get('alert-class', 'alert-info') }}">
         <button type="button" id="alertClose" class="close" data-dismiss="alert">×</button>
         <strong style="color:#fff;font-weight:bold">{{ Session::get('message') }} </strong>
     </div>
-    @endif
+    @endif --}}
     <div class="row lap-area">
         @foreach($analysisCart as $data)
         @if($data->scan)
@@ -45,7 +45,7 @@
 
         <div class="col-lg-4 col-md-6 mb-10">
             <div class="card text-center">
-                <div class="card-header bg-success text-white">{{$data->scan->discount_pct}}</div>
+                <div class="card-header bg-success text-white">{{$data->scan->discount_pct}} % Discount</div>
                 <div class="card-body">
                     <h5 class="card-title">{{$data->scan->en_name}}</h5>
                     <p class="card-text">	{{ Str::limit($data->scan->en_desc, 200, ' ...') }}</p>

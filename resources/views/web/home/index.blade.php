@@ -71,9 +71,9 @@
 
 					<form id="myforma" action="" method="GET">
 						<div class="form-group">
-							<label for="">Select The Lap Name</label>
+							<label for="">Select The Lab Name</label>
 							<div>
-								<select class="form-control form-control-xs selectpicker dynamic" name="selectedLab" data-size="7" data-live-search="true" data-title="Lap Name" id="selectedLab" data-dependent="analysis" data-width="100%">
+								<select class="form-control form-control-xs selectpicker dynamic" name="selectedLab" data-size="7" data-live-search="true" data-title="Lab Name" id="selectedLab" data-dependent="analysis" data-width="100%">
 									@foreach ($labs as $lab)
 									<option value='{{$lab->id}}'>{{$lab->en_name}}</option>
 
@@ -84,8 +84,8 @@
 						<div class="form-group analysis-cart" style="width: 100%;">
 							<label for="">Search For Analysis</label>
 							<div>
-								<input class="form-control mb-10" placeholder="--Search For Analysis--" />
-								<select class="form-control  show-menu-arrow mb-10"  style="max-width:400px; overflow-x: scroll;" name="analysis[]" id="analysis" data-live-search="true" multiple="" title="-- Select your Analysis --">
+								<input class="form-control mb-10" id="myInput" placeholder="--Search For Analysis--" onkeyup="filterFunction()" />
+								<select class="form-control  show-menu-arrow mb-10" style="max-width:400px; overflow-x: scroll;" name="analysis[]" id="analysis" data-live-search="true" multiple="" title="-- Select your Analysis --">
 									<!-- <option data-tokens="Option-1">Option-1</option> -->
 
 								</select>
@@ -111,14 +111,17 @@
 							</div>
 						</div> -->
 					</form>
-				</div>
-				<div id="comparePrices">
-				@include('web.home.comparePrices')
-			
+
+					<div id="comparePrices">
+						@if($comparess && isset($comparess[0]))
+						@include('web.home.comparePrices')
+						@endif
+					</div>
+
 				</div>
 			</div>
 			<div id="ajaxLab" class="col-lg-9">
-			<?php
+				<?php
 				$countanalysis = 0;
 				foreach ($analysisCart as $objAnalysis) {
 					if ($objAnalysis->analysis) {
@@ -133,7 +136,7 @@
 
 					<div class="row lap-area">
 						<div class="col-lg-3 col-sm-12">
-							<img src="{{ asset('webasset/img/logo.png')}}" class="our-logo" /><span>Salamtk</span>
+							<img src="{{ asset('webasset/img/logo.png')}}" class="our-logo" /><span>Aafia</span>
 						</div>
 						<div class="col-lg-7  col-sm-12">
 							<h3 class="our-slogn">We Always Care For Your Health</h3>
@@ -156,7 +159,7 @@
 					</div>
 					<div class="row steps">
 						<ul>
-							<li class="text-white"><span> 1 - <i class="fa fa-angle-double-right"></i> Select Lap Name </span>
+							<li class="text-white"><span> 1 - <i class="fa fa-angle-double-right"></i> Select Lab Name </span>
 								<p class="text-white">Consectetur adipisicing elit Lorem ipsum dolor sit amet elit Lorem dolor sit amet</p>
 							</li>
 							<li class="text-white"><span> 2 - <i class="fa fa-angle-double-right"></i> Select Analysis Name </span>
@@ -240,10 +243,10 @@
 				<div class="row">
 					<form id="myscan" action="" method="GET">
 						<div class="form-group">
-							<label for="">Select The Lap Name</label>
+							<label for="">Select The Lab Name</label>
 							<div>
 
-								<select class="form-control form-control-xs selectpicker dynamicScan" name="selectedScan" data-size="7" data-live-search="true" data-title="Lap Name" id="selectedScan" data-dependent="scan" data-width="100%">
+								<select class="form-control form-control-xs selectpicker dynamicScan" name="selectedScan" data-size="7" data-live-search="true" data-title="Lab Name" id="selectedScan" data-dependent="scan" data-width="100%">
 									@foreach ($labs as $lab)
 									<option value='{{$lab->id}}'>{{$lab->en_name}}</option>
 
@@ -254,7 +257,7 @@
 						<div class="form-group analysis-cart">
 							<label for="">Search For Scan</label>
 							<div>
-								<input class="form-control mb-10" placeholder="--Search For Scan--" />
+								<input class="form-control mb-10" id="myInputScan" placeholder="--Search For Scan--" onkeyup="filterFunctionScan()" />
 
 								<select class="form-control  show-menu-arrow mb-10" name="scans[]" id="scans" data-live-search="true" multiple="" title="-- Select your Analysis --">
 									<!-- <option data-tokens="Option-1">Option-1</option> -->
@@ -283,6 +286,7 @@
 						</div> -->
 					</form>
 				</div>
+				{{--
 				<h4 class="rec-price-title">Recommended Labs</h4>
 				<div class="row">
 					<div class="col-lg-12">
@@ -292,75 +296,76 @@
 								<div class="single-post-list d-flex flex-row align-items-center">
 									<div class="thumb">
 										<a href="#"><img width="120" height="70" class="img-fluid rec-logo" src="{{ asset('uploads/'.$lab->logo) }}" alt=""></a>
-									</div>
-									<div class="details rec-price">
-										<p>{{$lab->en_name}}</p>
-										<p>{{$lab->en_slogan}}</p>
-
-									</div>
-								</div>
-								@endforeach
-
-
-							</div>
-						</div>
-					</div>
-
-				</div>
 			</div>
-
-			<div id="ajaxScan" class="col-lg-9">
-				<?php
-				$countscan = 0;
-				foreach ($analysisCart as $objScan) {
-					if ($objScan->scan) {
-						$countscan++;
-					}
-				}
-				?>
-				@if($analysisCart && $countscan > 0)
-				@include('web.home.ajaxScan')
-				@else
-				<div class="row lap-area">
-					<div class="col-lg-3 col-sm-12">
-						<img src="{{ asset('webasset/img/logo.png')}}" class="our-logo" /><span>Salamtk</span>
-					</div>
-					<div class="col-lg-7  col-sm-12">
-						<h3 class="our-slogn">We Always Care For Your Health</h3>
-					</div>
-					<div class="col-lg-2  col-sm-12">
-						<!--<a href="#" class="btn btn-success btn-lap">Lap Page</a>-->
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12 video-right justify-content-center align-items-center d-flex relative analysis-area-vedio">
-						<div class="overlay overlay-bg"></div>
-					</div>
-				</div>
-				<div class="row justify-content-center">
-					<div class="col-md-12 pb-10 header-text text-center">
-						<h3 class="mb-10 text-white pt-10">We Care for Your Health</h3>
-						<p class="text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit Lorem ipsum dolor sit amet</p>
-						<p class="text-white">Consectetur adipisicing elit Lorem ipsum dolor sit amet</p>
-					</div>
-				</div>
-				<div class="row steps">
-					<ul>
-						<li class="text-white"><span> 1 - <i class="fa fa-angle-double-right"></i> Select Lap Name </span>
-							<p class="text-white">Consectetur adipisicing elit Lorem ipsum dolor sit amet elit Lorem dolor sit amet</p>
-						</li>
-						<li class="text-white"><span> 2 - <i class="fa fa-angle-double-right"></i> Select Scan Name </span>
-							<p class="text-white">Consectetur adipisicing elit Lorem ipsum dolor elit Lorem ipsum dolor sit amet</p>
-						</li>
-						<li class="text-white"><span> 3 - <i class="fa fa-angle-double-right"></i> Click Submit </span>
-							<p class="text-white">Consectetur adipisicing elit Lorem ipsum dolor sit amet elit Lorem ipsum dolor amet</p>
-						</li>
-					</ul>
-				</div>
-				@endif
+			<div class="details rec-price">
+				<p>{{$lab->en_name}}</p>
+				<p>{{$lab->en_slogan}}</p>
 
 			</div>
 		</div>
+		@endforeach
+
+
+	</div>
+	</div>
+	</div>
+
+	</div>
+	--}}
+	</div>
+
+	<div id="ajaxScan" class="col-lg-9">
+		<?php
+		$countscan = 0;
+		foreach ($analysisCart as $objScan) {
+			if ($objScan->scan) {
+				$countscan++;
+			}
+		}
+		?>
+		@if($analysisCart && $countscan > 0)
+		@include('web.home.ajaxScan')
+		@else
+		<div class="row lap-area">
+			<div class="col-lg-3 col-sm-12">
+				<img src="{{ asset('webasset/img/logo.png')}}" class="our-logo" /><span>Aafia</span>
+			</div>
+			<div class="col-lg-7  col-sm-12">
+				<h3 class="our-slogn">We Always Care For Your Health</h3>
+			</div>
+			<div class="col-lg-2  col-sm-12">
+				<!--<a href="#" class="btn btn-success btn-lap">Lap Page</a>-->
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 video-right justify-content-center align-items-center d-flex relative analysis-area-vedio">
+				<div class="overlay overlay-bg"></div>
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-md-12 pb-10 header-text text-center">
+				<h3 class="mb-10 text-white pt-10">We Care for Your Health</h3>
+				<p class="text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit Lorem ipsum dolor sit amet</p>
+				<p class="text-white">Consectetur adipisicing elit Lorem ipsum dolor sit amet</p>
+			</div>
+		</div>
+		<div class="row steps">
+			<ul>
+				<li class="text-white"><span> 1 - <i class="fa fa-angle-double-right"></i> Select Lab Name </span>
+					<p class="text-white">Consectetur adipisicing elit Lorem ipsum dolor sit amet elit Lorem dolor sit amet</p>
+				</li>
+				<li class="text-white"><span> 2 - <i class="fa fa-angle-double-right"></i> Select Scan Name </span>
+					<p class="text-white">Consectetur adipisicing elit Lorem ipsum dolor elit Lorem ipsum dolor sit amet</p>
+				</li>
+				<li class="text-white"><span> 3 - <i class="fa fa-angle-double-right"></i> Click Submit </span>
+					<p class="text-white">Consectetur adipisicing elit Lorem ipsum dolor sit amet elit Lorem ipsum dolor amet</p>
+				</li>
+			</ul>
+		</div>
+		@endif
+
+	</div>
+	</div>
 </section>
 <!-- Scan Area -->
 
@@ -410,7 +415,7 @@
 					<input type="email" class="form-control" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
 					<div>
 						<select class="form-control">
-							<option data-display="">Lap Type</option>
+							<option data-display="">Lab Type</option>
 							<option value="1">Type One</option>
 							<option value="2">Type Two</option>
 							<option value="3">Type Three</option>
@@ -523,22 +528,51 @@
 
 	}
 
-		//comparePrice
-		function comparePrice(c) {
+	//comparePrice
+	function comparePrice(c) {
 
-var id=c;
-$.ajax({ // create an AJAX call...
-	// get the form data
-	url: '{{ url("/comparePrice") }}/' + id,
+		var id = c;
+		$.ajax({ // create an AJAX call...
+			// get the form data
+			url: '{{ url("/comparePrice") }}/' + id,
 
-	success: function(response) { // on success..
-		$('#comparePrices').html(response); // update the DIV
-	
+			success: function(response) { // on success..
+				$('#comparePrices').html(response); // update the DIV
+
+			}
+		});
+
 	}
-});
-
-}
 	$(document).ready(function() {
+
+		document.getElementById('analysis').ondblclick = function() {
+			// or alert(this.options[this.selectedIndex].value);
+			$.ajax({ // create an AJAX call...
+				data: $('#myforma').serialize(), // get the form data
+				method: "get", // GET or POST
+				url: "{{url('/addToCard')}}", // the file to call
+				success: function(response) { // on success..
+
+					$('#ajaxLab').html(response); // update the DIV
+
+
+				}
+			});
+		};
+		document.getElementById('scans').ondblclick = function() {
+			// or alert(this.options[this.selectedIndex].value);
+			$.ajax({ // create an AJAX call...
+			data: $('#myscan').serialize(), // get the form data
+			method: "get", // GET or POST
+			url: "{{url('/addScanCard')}}", // the file to call
+			success: function(response) { // on success..
+				$('#ajaxScan').html(response); // update the DIV
+			
+
+			}
+		});
+		};
+
 
 		$('.dynamic').change(function() {
 
@@ -588,6 +622,40 @@ $.ajax({ // create an AJAX call...
 			}
 		});
 	});
+
+	function filterFunction() {
+		var input, filter, ul, li, a, i;
+		input = document.getElementById("myInput");
+		filter = input.value.toUpperCase();
+		div = document.getElementById("analysis");
+		a = div.getElementsByTagName("option");
+		for (i = 0; i < a.length; i++) {
+			txtValue = a[i].textContent || a[i].innerText;
+			if (txtValue.toUpperCase().indexOf(filter) > -1) {
+				a[i].style.display = "";
+			} else {
+				a[i].style.display = "none";
+			}
+		}
+	}
+
+
+	function filterFunctionScan() {
+		alert('cc');
+		var input, filter, ul, li, a, i;
+		input = document.getElementById("myInputScan");
+		filter = input.value.toUpperCase();
+		div = document.getElementById("scans");
+		a = div.getElementsByTagName("option");
+		for (i = 0; i < a.length; i++) {
+			txtValue = a[i].textContent || a[i].innerText;
+			if (txtValue.toUpperCase().indexOf(filter) > -1) {
+				a[i].style.display = "";
+			} else {
+				a[i].style.display = "none";
+			}
+		}
+	}
 </script>
 
 @endsection

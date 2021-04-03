@@ -47,7 +47,7 @@
                     <div class="col-md-6">
                         <div class="card-body card-body2">
                             <div class="brand-wrapper">
-                                <h3><img src="{{ asset('webasset/img/logo.png')}}" alt="logo" class="logo">Salamtak</h3>
+                                <h3><img src="{{ asset('webasset/img/logo.png')}}" alt="logo" class="logo">Aafia</h3>
                             </div>
                             <p class="">Get sarted with your free account</p>
 

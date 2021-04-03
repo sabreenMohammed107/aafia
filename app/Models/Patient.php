@@ -28,9 +28,14 @@ class Patient extends Model
         'sensitivity',
         'family_diseases',
         'notes',
+        'syndicate_id',
      ];
 
      public function user(){
       return $this->belongsTo('App\User','user_id');
   }
+
+  public function syndicate(){
+   return $this->belongsTo('App\Models\Syndicate','syndicate_id');
+}
 }
