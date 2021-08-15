@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lab;
-use App\Models\Order;
+use App\Models\Scan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\QueryException;
 
-class UserAdminController extends Controller
+class ScanController extends Controller
 {
-
     protected $user_info;
 
     protected $routeName;
@@ -31,6 +31,14 @@ class UserAdminController extends Controller
 
         $this->routeName = 'admin.';
     }
+
+
+    public function getData($id){
+        $scans = Scan::where('lab_id', '=', $id)->get();
+        $lab_id=$id;
+        return view('admin.labs.scan', compact('scans','lab_id'));
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -39,10 +47,6 @@ class UserAdminController extends Controller
     public function index()
     {
         //
-        // dd ($this->user_info);
-        $lab = Lab::where('id', '=', $this->user_info->lab_id)->first();
-
-        return view('admin.labs.index', compact('lab'));
     }
 
     /**
@@ -63,7 +67,9 @@ class UserAdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Scan::create($request->except('_token'));
+
+        return redirect('/lab-scan/'.$request->input('lab_id'))->with('flash_success', 'saved Succsessfuly');
     }
 
     /**
@@ -74,7 +80,9 @@ class UserAdminController extends Controller
      */
     public function show($id)
     {
-        //
+        $row=Scan::where('id',$id)->first();
+
+        return view('admin.labs.show-scan', compact('row'));
     }
 
     /**
@@ -85,8 +93,9 @@ class UserAdminController extends Controller
      */
     public function edit($id)
     {
-        $lab = Lab::where('id', '=', $id)->first();
-        return view('admin.labs.edit', compact('lab'));
+        $row=Scan::where('id',$id)->first();
+
+        return view('admin.labs.edit-scan', compact('row'));
     }
 
     /**
@@ -98,23 +107,10 @@ class UserAdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $lab = Lab::where('id', '=', $id)->first();
+        $row=Scan::where('id',$id)->first();
+        $row->update($request->except('_token'));
 
-        $input =$request->except(['_method', '_token','logo']);
-
-
-        if($request->hasFile('logo'))
-             {
-                $logo=$request->file('logo');
-
-                $input['logo'] = $this->UplaodImage($logo);
-
-             }
-
-             $lab->update($input);
-             return redirect()->route($this->routeName.'index')->with('flash_success', 'Data Has Been Deleted Successfully !');
-
+        return redirect('/lab-scan/'.$row->lab_id)->with('flash_success', 'saved Succsessfuly');
     }
 
     /**
@@ -125,38 +121,15 @@ class UserAdminController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            Scan::findOrFail($id)->delete();
+
+        } catch (QueryException $q) {
+
+            return redirect()->back()->with('flash_danger', 'You cannot delete related with another...');
+
+        }
+        return redirect()->back()->with('flash_success', 'Data Has Been Deleted Successfully !');
+    }
     }
 
-
-    public function UplaodImage($file_request)
-	{
-		//  This is Image Info..
-		$file = $file_request;
-		$name = $file->getClientOriginalName();
-		$ext  = $file->getClientOriginalExtension();
-		$size = $file->getSize();
-		$path = $file->getRealPath();
-		$mime = $file->getMimeType();
-
-
-		// Rename The Image ..
-		$imageName =$name;
-		$uploadPath = public_path('uploads');
-
-		// Move The image..
-		$file->move($uploadPath, $imageName);
-
-		return $imageName;
-    }
-
-
-    public function analysisOrders($id){
-$orders=Order::where('analysis_lab_id',$id)->get();
-return view('admin.orders.showAnalysis', compact('orders'));
-    }
-    public function scanOrders($id){
-        $orders=Order::where('scan_lab_id',$id)->get();
-        return view('admin.orders.showScan', compact('orders'));
-            }
-}

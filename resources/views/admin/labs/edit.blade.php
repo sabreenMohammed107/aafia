@@ -9,10 +9,10 @@
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-left">
                                 <ul class="breadcome-menu pull-left" style="direction: ltr;">
                                     <li>
-                                        <a href="index.html"> Home </a><span class="bread-slash"> / </span>
+                                        <a href="{{ url('/admin') }}"> Home </a><span class="bread-slash"> / </span>
                                     </li>
                                     <li>
-                                        <a href="labs.html"> Labs </a><span class="bread-slash"> / </span>
+                                        <a href="{{ url('/admin') }}"> Labs </a><span class="bread-slash"> / </span>
                                     </li>
                                     <li>
                                         <span class="bread-blod"> Lab Edit </span>

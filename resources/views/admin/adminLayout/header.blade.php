@@ -35,7 +35,7 @@
 												<!-- جزء الرسايل -->
 
 												<!-- <li class="nav-item dropdown">
-												
+
 												</li> -->
 										<!-- جزء الاشعارات -->
 
@@ -120,7 +120,7 @@
                             @endif
                         @else
                             <li >
-                              
+
                                     <a  href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -130,10 +130,10 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
-                            
+
                             </li>
                         @endguest
-												
+
 
 											</ul>
 										</li>
@@ -153,25 +153,42 @@
 											<li class="nav-item dropdown res-dis-nn">
 												<a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
 													class="nav-link dropdown-toggle"><span class="angle-down-topmenu"><i
-															class="fa fa-angle-down"></i></span> Reports </a>
+															class="fa fa-angle-down"></i></span> Lab </a>
 												<div role="menu" class="dropdown-menu animated zoomIn">
-													<a href="#" class="dropdown-item">report</a>
-													<a href="#" class="dropdown-item">report</a>
-													<a href="#" class="dropdown-item">report</a>
-													<a href="#" class="dropdown-item">report</a>
-													<a href="#" class="dropdown-item">report</a>
+                                                    @guest
+
+
+                                                    @else
+
+                                                    <?php
+                                                    $lab = App\Models\Lab::where('id', '=', Auth::user()->lab_id)->first();
+                                                  ?>
+                                                    <a href="{{ route('admin.edit',$lab->id) }}" class="dropdown-item">Edit Lab</a>
+													<a href="{{ url('lab-scan',$lab->id) }}" class="dropdown-item">Scans</a>
+													<a href="{{ url('lab-analysis',$lab->id) }}" class="dropdown-item">Analysis</a>
+
+                                                     @endguest
+
 												</div>
 											</li>
 											<li class="nav-item dropdown res-dis-nn">
 												<a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
 													class="nav-link dropdown-toggle"><span class="angle-down-topmenu"><i
-															class="fa fa-angle-down"></i></span>HR </a>
+															class="fa fa-angle-down"></i></span>Orders </a>
 												<div role="menu" class="dropdown-menu animated zoomIn">
-													<a href="#" class="dropdown-item">HR</a>
-													<a href="#" class="dropdown-item">HR</a>
-													<a href="#" class="dropdown-item">HR</a>
-													<a href="#" class="dropdown-item">HR</a>
-													<a href="#" class="dropdown-item">HR</a>
+
+                                                    @guest
+
+
+                                                    @else
+
+                                                    <?php
+                                                    $lab = App\Models\Lab::where('id', '=', Auth::user()->lab_id)->first();
+                                                  ?>
+                                                    <a href="{{ route('analysis-orders',$lab->id) }}" class="dropdown-item">Analysis Orders</a>
+                                                    <a href="{{ route('scan-orders',$lab->id) }}" class="dropdown-item">Scan Orders</a>
+
+                                                     @endguest
 
 												</div>
 											</li>

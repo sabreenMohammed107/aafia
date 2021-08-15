@@ -80,6 +80,7 @@
 						<h2>Patient Data</h2>
 						<form class="form-horizontal" action="{{route('patientData')}}" method="post">
 						@csrf
+                        @if($order)
 						<input type="hidden" name="order" value="{{$order->id ?? 0}}">
 						<input type="hidden" name="userId" value="{{ Auth::user()->id }}">
 							<div class="form-group row">
@@ -95,7 +96,7 @@
 							<div class="form-group row">
 								<div class="col-sm-6">
 									<label for="timefrom">Time From:</label>
-									<input type="time" class="form-control" value="{{date('H:i', strtotime($order->v_from))}}" name="v_from" required id="timefrom" placeholder="timefrom">
+									<input type="time" class="form-control" value="{{date('H:i', strtotime($order->v_from ))}}" name="v_from" required id="timefrom" placeholder="timefrom">
 								</div>
 								<div class="col-sm-6">
 									<label for="timeto">Time To:</label>
@@ -126,14 +127,14 @@
 									@endforeach
 								</select>
 								</div>
-								
+
 							</div>
 
 
 							<div class="form-group row">
 								<button type="submit" class="btn btn-success px-4 mb-3">Save</button>
 							</div>
-
+@endif
 						</form>
 					</div>
 				</div>

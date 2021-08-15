@@ -31,11 +31,11 @@ class IndexController extends Controller
         $analysisCart = [];
         $order=null;
         if (Auth::user()) {
-           
+
             $patient = Patient::where('user_id', Auth::user()->id)->first();
             if($patient){
                 $order = Order::where('order_status_id', 100)->where('patient_id', '=', $patient->id)->first();
-    
+
             }
             if ($order) {
                 $analysisCart = Order_item::with('analysis')->with('scan')->where('order_id', $order->id)->get();
@@ -45,15 +45,15 @@ class IndexController extends Controller
         }
         $comparess=[];
         $user=Auth::user();
-      
+
         if($user){
             if($user->hasRole('super_admin') || $user->hasRole('main_admin')){
                 //    dd('sssss');
-               
+
                 Auth::logout();
                     }
         }
-      
+
         return view('web.home.index', compact('labs', 'analysisCart','comparess'));
     }
 
@@ -155,7 +155,7 @@ class IndexController extends Controller
     {
         \Log::info(['scan', $request->all()]);
         $lab = Lab::where('id', $request->selectedScan)->first();
-        $scans = Analysis::whereIN('id', $request->scans)->get();
+        $scans = Scan::whereIN('id', $request->scans)->get();
 
         $patient = Patient::where('user_id', Auth::user()->id)->first();
         DB::beginTransaction();
@@ -175,11 +175,12 @@ class IndexController extends Controller
             $saveOrder->update(['scan_lab_id' => $request->selectedScan]);
 
             foreach ($scans as $Item) {
+                \Log::info(["message",$Item]);
                 $orderItem = Order_item::firstOrNew(['scan_id' => $Item->id, 'order_id' => $saveOrder->id]); // your data
                 $orderItem->order_id = $saveOrder->id;
                 $orderItem->scan_id = $Item->id;
-                $orderItem->original_cost = $Item->original_cost;
-                $orderItem->discount_pct = $Item->discount_pct;
+                $orderItem->original_cost =$Item->original_cost;
+                $orderItem->discount_pct =$Item->discount_pct;
                 $orderItem->save();
             }
 
@@ -280,9 +281,9 @@ class IndexController extends Controller
 
             if (Auth::user()) {
                 $patient = Patient::where('user_id', Auth::user()->id)->first();
-               
+
                 $order = Order::where('order_status_id', 100)->where('patient_id', '=', $patient->id)->first();
-               
+
                 if ($order) {
                     $analysisCart = Order_item::with('analysis')->with('scan')->where('order_id', $order->id)->get();
                 } else {
@@ -335,7 +336,7 @@ class IndexController extends Controller
             //  return redirect()->back()->with('message', 'Thanks; your request has been submitted successfully !');
         } catch (QueryException $q) {
 
-            //  return redirect()->back()->with('message','ُEmpty Newsletter !!!');  
+            //  return redirect()->back()->with('message','ُEmpty Newsletter !!!');
 
         }
 
@@ -361,7 +362,10 @@ class IndexController extends Controller
             'order_status_id' => 101,
             'total_amount' => $request->total,
         ];
-        $order->update($data);
+        if($order){
+            $order->update($data);
+        }
+
 
         // try {
         //     $order->items()->delete();
@@ -421,14 +425,14 @@ class IndexController extends Controller
             if ($user) {
                 $user->mobile = $request->input('mobile');
                 $user->update();
-                
+
             }
             $patient=Patient::where('user_id',$request->userId)->first();
             if ($patient) {
                 $patient->address = $request->input('address');
                 $patient->syndicate_id=$request->input('syndicate_id');
                 $patient->update();
-                
+
             }
             DB::commit();
             // Enable foreign key checks!

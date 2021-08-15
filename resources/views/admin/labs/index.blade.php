@@ -5,16 +5,16 @@
 @section('crumb')
 
 <div class="row">
-    
+
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-left">
                                 <ul class="breadcome-menu pull-left" style="direction: ltr;">
                                     <li>
-                                        <a href="index.html"> Home </a><span class="bread-slash"> / </span>
+                                        <a href="{{ url('/admin') }}"> Home </a><span class="bread-slash"> / </span>
                                     </li>
                                     <li>
-                                        <a href="labs.html"> Labs </a>
+                                        <a href="{{ url('/admin') }}"> Labs </a>
                                     </li>
-                                   
+
                                 </ul>
                             </div>
 </div>
@@ -29,7 +29,7 @@
 							<!-- about-img -->
 							<div class="about-img">
 								<img src="{{ asset('uploads')}}/{{$lab->logo}}" alt="" style="background-size: cover;height: 300px!important;">
-								
+
 							</div>
 
 						</div>
@@ -42,20 +42,20 @@
 								<p class="pera-top mb-40"> <b style="font-weight: 800;">Lab Slogan :</b>{{$lab->en_name}} </p>
 								<p class="pera-bottom mb-30"><b style="font-weight: 800;">Lab overview :</b> {{$lab->overview}}  </p>
 								<p class="pera-bottom mb-30"><b style="font-weight: 800;">Lab Description :</b> {{$lab->description}} </p>
-								
+
 								<div class="icon-about backbutton">
-									
-									<a href="#" class="col-sm-3  " title="Analisys"><img src="{{ asset('adminasset/img/icon/003-analysis.svg')}}" alt="" class=" mr-20" style="width: 75px;height:75px;background-color: #57C65D;padding:15px;border-radius: 15px;"></button></a>
+
+									<a href="{{ url('lab-analysis',$lab->id) }}" class="col-sm-3  " title="Analisys"><img src="{{ asset('adminasset/img/icon/003-analysis.svg')}}" alt="" class=" mr-20" style="width: 75px;height:75px;background-color: #57C65D;padding:15px;border-radius: 15px;"></button></a>
 									<a href="{{ route('admin.edit',$lab->id) }}"  class="col-sm-3  " title="Edit"><img src="{{ asset('adminasset/img/icon/001-edit.svg')}}" alt="" style="width: 75px;height:75px;background-color: #57C65D;padding: 15px;border-radius: 15px;"></button></a>
-									<a href="allscans.html"  class="col-sm-3  " title="Scans"><img src="{{ asset('adminasset/img/icon/002-scanner.svg')}}" alt="" style="width: 75px;height:75px;background-color: #57C65D;padding: 15px;border-radius: 15px;"></button></a>
+									<a href="{{ url('lab-scan',$lab->id) }}"  class="col-sm-3  " title="Scans"><img src="{{ asset('adminasset/img/icon/002-scanner.svg')}}" alt="" style="width: 75px;height:75px;background-color: #57C65D;padding: 15px;border-radius: 15px;"></button></a>
 
 							 	</div>
 						 	</div>
 					 	</div>
-					 
+
 				 	</div>
 				 </div>
 			</div>
-			
+
 		</div>
 @endsection

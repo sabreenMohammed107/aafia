@@ -88,9 +88,36 @@
 			============================================ -->
 	<script src="{{ asset('adminasset/js/select2/select2.full.min.js')}}"></script>
 	<script src="{{ asset('adminasset/js/select2/select2-active.js')}}"></script>
+    <script src="{{ asset('adminasset/js/sweetalert2.min.js')}}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<!-- tab JS
 			============================================ -->
-	<script src="{{ asset('adminasset/js/tab.js')}}"></script>
+
+
+    <script>
+function test(){
+    alert('hi')
+}
+        // delete alert
+function destroy(thing, id) {
+
+  Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to delete "+thing+"!",
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, delete it!'
+}).then((result) => {
+  if (result.value) {
+  	$('#delete_'+id).submit();
+  }
+})
+}
+
+    </script>
+    <script src="{{ asset('adminasset/js/tab.js')}}"></script>
 </body>
 
 </html>

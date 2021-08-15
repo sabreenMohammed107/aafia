@@ -90,21 +90,24 @@
                             <div class="card mb-10">
                                 <div class="card-horizontal">
                                     <div class="card-body">
-                                        <h4 class="card-title">Analysis Name</h4>
+                                        <h4 class="card-title">{{$data->analysis->lab->en_name ?? ''}} - Analysis</h4>
                                         <h6 class="mb-10">{{$data->analysis->en_name}}</h6>
                                         <p class="card-text mb-10">{{$data->analysis->en_desc}}.</p>
-                                        <h6>Price: {{$data->analysis->original_cost-(($data->analysis->original_cost * $data->analysis->discount_pct)/100) }}  LE</h6>
+                                        <h6>Price: {{$data->analysis->original_cost-($data->analysis->original_cost * $data->analysis->discount_pct)/100 }}  LE</h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         @endif
+                        @endforeach
+                        <hr>
+                        @foreach($analysisCart as $data)
                         @if($data->scan)
                         <div class="row mg-0">
                             <div class="card mb-10">
                                 <div class="card-horizontal">
                                     <div class="card-body">
-                                        <h4 class="card-title">Scan Name</h4>
+                                        <h4 class="card-title">{{$data->scan->lab->en_name ?? ''}} - scan</h4>
                                         <h6 class="mb-10">{{$data->scan->en_name}}</h6>
                                         <p class="card-text mb-10">{{$data->scan->en_desc}}.</p>
                                         <h6>Price:{{$data->scan->original_cost-(($data->scan->original_cost * $data->scan->discount_pct)/100) }} LE</h6>
