@@ -2,8 +2,8 @@
 	<div class="left-sidebar-pro">
 		<nav id="sidebar" class="">
 			<div class="sidebar-header" style="padding:15px" >
-				<a href="index.html" class="mainlogot"><img class="main-logo " src="{{ asset('adminasset/img/logo/logo.png')}}" alt="" height="60px" />AFIA</a>
-				<strong><a href="index.html"><img src="{{ asset('adminasset/img/logo/logosn.png')}}" alt="" /></a></strong>
+				<a href="{{ url('/admin') }}" class="mainlogot"><img class="main-logo " src="{{ asset('adminasset/img/logo/logo.png')}}" alt="" height="60px" />AFIA</a>
+				<strong><a href="{{ url('/admin') }}"><img src="{{ asset('adminasset/img/logo/logosn.png')}}" alt="" /></a></strong>
 			</div>
 		</nav>
 	</div>
@@ -13,7 +13,7 @@
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="logo-pro" style="padding:15px" >
-						<a href="index.html" class="mainlogot"><img class="main-logo " src="{{ asset('adminasset/img/logo/logo.png')}}" alt="cccc"  height="60px" > AFIA</a>
+						<a href="{{ url('/admin') }}" class="mainlogot"><img class="main-logo " src="{{ asset('adminasset/img/logo/logo.png')}}" alt="cccc"  height="60px" > AFIA</a>
 					</div>
 				</div>
 			</div>
@@ -192,7 +192,7 @@
 
 												</div>
 											</li>
-											<li class="nav-item dropdown res-dis-nn">
+											{{-- <li class="nav-item dropdown res-dis-nn">
 												<a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
 													class="nav-link dropdown-toggle"> <span
 														class="angle-down-topmenu"><i
@@ -246,7 +246,7 @@
 													<a href="#" class="dropdown-item">Home </a>
 													<a href="#" class="dropdown-item">Home </a>
 												</div>
-											</li>
+											</li> --}}
 										</ul>
 									</div>
 								</div>
